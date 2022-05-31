@@ -60,3 +60,17 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.linkButton {
+  background-color: rgba(29, 33, 37, 0.5);
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.linkButton:hover {
+  background-color: rgba(29, 33, 37, 0.8);
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 15px;
+}
