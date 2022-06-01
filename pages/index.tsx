@@ -1,13 +1,12 @@
-import type { NextPage } from 'next'
+import type { InferGetStaticPropsType, NextPage } from 'next'
 import Head from 'next/head'
+import { GetStaticProps } from 'next';
 import {Categories, PostCard, PostWidget} from '../components';
+import {getPosts} from '../services';
 
-const posts = [
-  { title: 'React Testing', excerpt:'Learn React Testing'},
-  { title: 'React with tailwind', excerpt: 'Learn React with Tailwind'}
-];
 
-const Home: NextPage = () => {
+const Home: NextPage = ({posts}:InferGetStaticPropsType<typeof getStaticProps>) => {
+  console.log(posts);
   return (
     <>
       <div className="container mx-auto px-10 mb-8">
@@ -17,7 +16,7 @@ const Home: NextPage = () => {
         </Head>
         <div className='grid grid-cols-1 lg:grid-cols-12 gap-12'>
           <div className='lg:col-span-8 col-span-1'>
-            {posts.map((post, index) => (
+            {posts.map((post: any, index:number) => (
               <PostCard post={post} key={index} />
             ))}
           </div>
@@ -31,6 +30,13 @@ const Home: NextPage = () => {
       </div>
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const posts = (await getPosts()) || [];
+  return {
+    props:{posts}
+  };
 }
 
 export default Home

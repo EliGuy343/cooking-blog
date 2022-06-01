@@ -1,9 +1,10 @@
 
 const PostCard = ({post}) => {
+  console.log(post);
   return (
     <div>
-        {post.title}
-        {post.excerpt}
+        {post.node.name}
+        {post.node.excerpt}
     </div>
   )
 }
