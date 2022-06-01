@@ -7,7 +7,6 @@ const Categories = [
 ];
 
 const Header = () => {
-  console.log(Categories)
   return (
     <div 
         style={{'backgroundColor':"rgba(80,80,200,0.7)"}} 
@@ -18,8 +17,9 @@ const Header = () => {
           <Link href='/'>
               <span
                 style={{"fontSize":"25px"}}
-                className='cursor-pointer font-bold-text-4xl text-white'>
-                Cooking Blog
+                className='cursor-pointer font-bold-text-4xl text-white'
+              >
+                The Recipe Hub
               </span>
           </Link>
         </div>

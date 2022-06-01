@@ -21,6 +21,7 @@ export const getPosts = async () => {
                     id
                     photo {
                     id
+                    url
                     }
                 }
                 category {
