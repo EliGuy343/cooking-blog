@@ -4,17 +4,45 @@ const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
 
 export const getPosts = async () => {
     const query = gql`
-        query MyQuery {
-            postsConnection {
-            edges {
-                node {
-                createdAt
-                slug
-                excerpt
+      query MyQuery {
+        postsConnection {
+          edges {
+            cursor
+            node {
+              author {
+                bio
                 name
-                featuredImage {
-                    url
+                id
+                photo {
+                  url
                 }
+              }
+            createdAt
+            slug
+            name
+            excerpt
+            featuredImage {
+                url
+            }
+            category {
+                name
+                slug
+            }
+            }
+          }
+        }
+      }
+    `;
+  
+    const result = await request(graphqlAPI, query);
+  
+    return result.postsConnection.edges;
+  };
+
+export const getPostDetails = async (slug) => {
+    const query = gql`
+        query GetPostDetails($slug: String) {
+            post(where: {slug: $slug}) {
                 author {
                     bio
                     name
@@ -24,17 +52,25 @@ export const getPosts = async () => {
                         url
                     }
                 }
+                createdAt
+                slug
+                name
+                excerpt
+                featuredImage {
+                    url
+                }
                 category {
                     name
                     slug
                 }
+                content {
+                    raw
                 }
             }
-            }
-        }      
+        }
     `
-    const result = await request(graphqlAPI, query);
-    return result.postsConnection.edges;
+    const result = await request(graphqlAPI, query, { slug });
+    return result;
 }
 
 export const getRecentPosts = async () => {
@@ -59,9 +95,9 @@ export const getRecentPosts = async () => {
 
 export const getsimilarPosts = async () => {
     const query = gql`
-        query GetPostDetails($slug: String!, $categories: [String!]) {
+        query GetPostDetails($slug: String, $category: [String]) {
             posts(
-                where:{slug_not:$slug, AND:{categories_some:{slug_in: $categories}}}
+                where:{slug_not:$slug, AND:{category:{slug_in: $category}}}
                 last: 3
             ) {
                 name
@@ -73,7 +109,7 @@ export const getsimilarPosts = async () => {
             }
         }
     `
-    const result = await request(graphqlAPI, query);
+    const result = await request(graphqlAPI, query, {categories, slug });
     return result.posts;
 }
 
