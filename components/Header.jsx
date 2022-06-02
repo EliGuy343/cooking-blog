@@ -1,12 +1,23 @@
-import React, {useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
+import { getCategories } from '../services';
 
-const Categories = [
-    {name:'React', slug:'react'},
-    {name:'React-bs', slug:'react-bs'}
-];
 
 const Header = () => {
+ const [categories, setCategories] = useState([]);
+  useEffect(() =>{
+    const fetchData = async () => {
+      try {
+        const res = await getCategories();
+        setCategories(res);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  
   return (
     <div 
         style={{'backgroundColor':"rgba(80,80,200,0.7)"}} 
@@ -24,7 +35,7 @@ const Header = () => {
           </Link>
         </div>
         <div className='md:float-left md:contents'>
-          {Categories.map((category)=>
+          {categories.map((category)=>
               <Link key={category.slug} href={`/category/${category.slug}`}>
                 <span 
                   className='md:float-right mt-2 align-middle text-white
