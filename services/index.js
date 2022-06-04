@@ -31,11 +31,8 @@ export const getPosts = async () => {
             }
           }
         }
-      }
-    `;
-  
+      }`;
     const result = await request(graphqlAPI, query);
-  
     return result.postsConnection.edges;
   };
 
@@ -67,8 +64,7 @@ export const getPostDetails = async (slug) => {
                     raw
                 }
             }
-        }
-    `
+        }`;
     const result = await request(graphqlAPI, query, { slug });
     return result;
 }
@@ -87,8 +83,7 @@ export const getRecentPosts = async () => {
                 createdAt
                 slug
             }
-        }
-    `
+        }`;
     const result = await request(graphqlAPI, query);
     return result.posts;
 }
@@ -107,8 +102,7 @@ export const getsimilarPosts = async () => {
                 createdAt
                 slug
             }
-        }
-    `
+        }`;
     const result = await request(graphqlAPI, query, {categories, slug });
     return result.posts;
 }
@@ -121,8 +115,7 @@ export const getCategories = async () => {
                 slug
             }
 
-        }
-    `
+        }`;
     const result = await request(graphqlAPI, query);
     return result.categories;
 }
@@ -147,8 +140,41 @@ export const getComments = async (slug) => {
                 createdAt
                 content
             }
-        }
-    `;
+        }`;
     const result = await request(graphqlAPI, query, {slug:slug});
     return result.comments;
+}
+
+export const getCategoryPosts = async (slug) => {
+    const query = gql`
+        query getCategoryPosts($slug: String!) {
+            postsConnection(where: {category: {slug: $slug}}) {
+                edges {
+                cursor
+                node {
+                    author {
+                    bio
+                    name
+                    id
+                    photo {
+                        url
+                    }
+                    }
+                    createdAt
+                    slug
+                    name
+                    excerpt
+                    featuredImage {
+                    url
+                    }
+                    category {
+                    name
+                    slug
+                    }
+                }
+                }
+            }
+        }`;
+    const result = await request(graphqlAPI, query, {slug:slug});
+    return result.postsConnection.edges;
 }
