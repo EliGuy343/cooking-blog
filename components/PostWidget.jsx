@@ -3,18 +3,18 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { getRecentPosts } from "../services";
 
-const PostWidget = ({categories, slug}) => {
+const PostWidget = ({category, slug}) => {
   const [relatedPosts, setRelatedPosts] = useState([]);
   console.log(relatedPosts);
   useEffect(() => {
     const fetchData = async () => {
       try {
         if(slug) {
-            const res = await getSimilarPosts(categories, slug);
+            const res = await getSimilarPosts(category, slug);
             setRelatedPosts(res);
         }
         else {
-          const res = await getRecentPosts(categories, slug);
+          const res = await getRecentPosts(category, slug);
           setRelatedPosts(res);
         }
       } catch (err) {

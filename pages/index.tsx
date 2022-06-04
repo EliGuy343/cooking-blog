@@ -22,7 +22,7 @@ const Home: NextPage = (
             </div>
             <div className='lg:col-span-4 col-span-1'>
                 <div className='lg:sticky relative top-8'>
-                  <PostWidget categories={undefined} slug={undefined} />
+                  <PostWidget category={undefined} slug={undefined} />
                   <Categories/>
                 </div>
             </div>

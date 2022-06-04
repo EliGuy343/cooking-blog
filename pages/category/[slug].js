@@ -21,7 +21,12 @@ const CategoryPost = ({ posts }) => {
         </div>
         <div className="col-span-1 lg:col-span-4">
           <div className="relative lg:sticky top-8">
-            <PostWidget />
+          {posts.length > 0 ?
+            (<PostWidget 
+                category={posts[0].node.category} 
+                slug={posts[0].node.slug}
+            />)
+            :(<PostWidget/>)}
             <Categories />
           </div>
         </div>
